@@ -11,20 +11,20 @@ import {
 } from './mongoose.providers';
 
 @Module({})
-export class MongooseModule {
+export class MongooseEmbeddedModule {
     static forRoot(
         uri: string,
         options: MongooseModuleOptions = {},
     ): DynamicModule {
         return {
-            module: MongooseModule,
+            module: MongooseEmbeddedModule,
             imports: [MongooseCoreModule.forRoot(uri, options)],
         };
     }
 
     static forRootAsync(options: MongooseModuleAsyncOptions): DynamicModule {
         return {
-            module: MongooseModule,
+            module: MongooseEmbeddedModule,
             imports: [MongooseCoreModule.forRootAsync(options)],
         };
     }
@@ -35,7 +35,7 @@ export class MongooseModule {
     ): DynamicModule {
         const providers = createMongooseProviders(connectionName, models);
         return {
-            module: MongooseModule,
+            module: MongooseEmbeddedModule,
             providers: providers,
             exports: providers,
         };
@@ -53,7 +53,7 @@ export class MongooseModule {
         const uniqImports = new Set(flatten(imports));
 
         return {
-            module: MongooseModule,
+            module: MongooseEmbeddedModule,
             imports: [...uniqImports],
             providers: providers,
             exports: providers,
