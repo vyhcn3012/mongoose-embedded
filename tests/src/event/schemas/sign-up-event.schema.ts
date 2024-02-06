@@ -3,12 +3,12 @@ import { Event } from './event.schema';
 
 @Schema({})
 export class SignUpEvent implements Event {
-  kind: string;
+    kind: string;
 
-  time: Date;
+    time: Date;
 
-  @Prop({ type: String, required: true })
-  user: string;
+    @Prop({ type: String, required: true })
+    user: string;
 }
 
 export const SignUpEventSchema = SchemaFactory.createForClass(SignUpEvent);

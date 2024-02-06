@@ -4,12 +4,12 @@ import { EventController } from './event.controller';
 
 @Module({})
 export class EventModule {
-  static forFeature(module: DynamicModule): DynamicModule {
-    return {
-      imports: [module],
-      module: EventModule,
-      controllers: [EventController],
-      providers: [EventService],
-    };
-  }
+    static forFeature(module: DynamicModule): DynamicModule {
+        return {
+            imports: [module],
+            module: EventModule,
+            controllers: [EventController],
+            providers: [EventService],
+        };
+    }
 }

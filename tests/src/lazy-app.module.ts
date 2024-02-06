@@ -3,11 +3,11 @@ import { MongooseModule } from '../../lib';
 import { CatsModule } from './cats/cats.module';
 
 @Module({
-  imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017/test', {
-      lazyConnection: true,
-    }),
-    CatsModule,
-  ],
+    imports: [
+        MongooseModule.forRoot('mongodb://localhost:27017/test', {
+            lazyConnection: true,
+        }),
+        CatsModule,
+    ],
 })
 export class LazyAppModule {}
