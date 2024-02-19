@@ -7,12 +7,12 @@ export interface EmbeddedOption {
     ref?: string;
 }
 
-export function Embedded(option?: EmbeddedOption): PropertyDecorator {
+export function Embedded(options?: EmbeddedOption): PropertyDecorator {
     return (target: object, propertyKey: string | symbol) => {
         EmbeddedMetadataStorage.addEmbeddedMetadata({
             target: target.constructor,
             propertyKey: propertyKey as string,
-            option: option as EmbeddedOption,
+            options: options as EmbeddedOption,
         });
     };
 }

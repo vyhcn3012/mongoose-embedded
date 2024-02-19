@@ -23,6 +23,7 @@ import {
     MONGOOSE_CONNECTION_NAME,
     MONGOOSE_MODULE_OPTIONS,
 } from './mongoose.constants';
+import { __Schema__Schema } from './__schema__/__schema__.entity';
 
 @Global()
 @Module({})
@@ -198,11 +199,23 @@ export class MongooseCoreModule implements OnApplicationShutdown {
     ): Promise<Connection> {
         const connection = mongoose.createConnection(uri, mongooseOptions);
 
+        this.createModel(connection);
+
         if (lazyConnection) {
             return connection;
         }
 
         return connection.asPromise();
+    }
+
+    private static createModel(connection: Connection): mongoose.Model<any> {
+        const model = connection.model('__schema__', __Schema__Schema);
+        // try {
+        //     model.create({ name: 'name' });
+        // } catch (err) {
+        //     console.log(err);
+        // }
+        return model;
     }
 
     async onApplicationShutdown() {

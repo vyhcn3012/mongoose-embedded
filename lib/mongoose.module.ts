@@ -34,6 +34,7 @@ export class MongooseEmbeddedModule {
         connectionName?: string,
     ): DynamicModule {
         const providers = createMongooseProviders(connectionName, models);
+
         return {
             module: MongooseEmbeddedModule,
             providers: providers,

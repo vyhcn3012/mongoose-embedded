@@ -9,6 +9,7 @@ export type DiscriminatorOptions = {
 export type ModelDefinition = {
     name: string;
     schema: any;
+    entity: any;
     collection?: string;
     discriminators?: DiscriminatorOptions[];
 };

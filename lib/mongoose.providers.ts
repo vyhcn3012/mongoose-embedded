@@ -2,7 +2,7 @@ import { Provider } from '@nestjs/common';
 import { Connection, Document, Model } from 'mongoose';
 import { getConnectionToken, getModelToken } from './common/mongoose.utils';
 import { AsyncModelFactory, ModelDefinition } from './interfaces';
-
+import { eventEmitter } from './utils/event';
 export function createMongooseProviders(
     connectionName?: string,
     options: ModelDefinition[] = [],
@@ -26,7 +26,13 @@ export function createMongooseProviders(
                               option.schema,
                               option.collection,
                           );
-                    return model;
+
+                    const wrappedModel = wrapModelWithInterception(
+                        model,
+                        option.name,
+                    );
+
+                    return wrappedModel;
                 },
                 inject: [getConnectionToken(connectionName)],
             },
@@ -69,4 +75,41 @@ export function createMongooseAsyncProviders(
             })),
         ];
     }, [] as Provider[]);
+}
+
+function wrapModelWithInterception(
+    model: Model<Document>,
+    modelName: string,
+): Model<Document> {
+    const originalCreate = model.create;
+    const originalUpdateOne = model.updateOne;
+
+    model.create = function (doc: any, options?: any): Promise<any> {
+        return originalCreate.call(model, doc, options).then((result) => {
+            eventEmitter.emit('create', {
+                doc,
+                options,
+                modelName,
+                result,
+            });
+            return result;
+        });
+    };
+
+    model.updateOne = function (filter: any, update: any, options?: any): any {
+        return originalUpdateOne
+            .call(model, filter, update, options)
+            .then((result) => {
+                eventEmitter.emit('updateOne', {
+                    filter,
+                    update,
+                    options,
+                    modelName,
+                    result,
+                });
+                return result;
+            });
+    };
+
+    return model;
 }

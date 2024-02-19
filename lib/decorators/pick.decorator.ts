@@ -1,12 +1,20 @@
-export const pick = Symbol('pick');
+// import { EmbeddedMetadataStorage } from '../storages';
 
-export const Pick = () => {
-    return (target: any, propertyKey: string) => {
-        const propertyList = target[pick] || (target[pick] = []);
-        propertyList.push(propertyKey);
-    };
-};
+// export const pick = Symbol('pick');
 
-export function getPick(obj: any): Array<string> {
-    return obj.prototype[pick];
-}
+// export interface PickInput {
+//     global?: boolean;
+//     entities?: Array<string>;
+// }
+// export function Pick(options?: PickInput): PropertyDecorator {
+//     return (target: object, propertyKey: string | symbol) => {
+//         EmbeddedMetadataStorage.addPickMetadata({
+//             target: target.constructor,
+//             propertyKey: propertyKey as string,
+//             options: {
+//                 global: options?.global || false,
+//                 entities: options?.entities || [],
+//             },
+//         });
+//     };
+// }
